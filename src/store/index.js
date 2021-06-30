@@ -1,12 +1,12 @@
 import { createStore } from 'vuex';
 
+import instructorsModule from './modules/instructors';
+
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
+    instructors: instructorsModule,
+  },
+  state: {},
+  mutations: {},
+  actions: {},
 });

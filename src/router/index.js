@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../pages/Home.vue';
+
+import InstructorList from '../pages/instructors/InstructorsList.vue';
+import InstructorDetail from '../pages/instructors/InstructorDetail.vue';
+import InstructorRegistraion from '../pages/instructors/InstructorRegistration.vue';
+import ContactInstructor from '../pages/requests/ContactInstructor.vue';
+import RequestsRecieved from '../pages/requests/RequestsRecieved.vue';
+import NotFound from '../pages/NotFound.vue';
 
 const routes = [
   {
     path: '/',
-    redirect: '/instructors'
+    redirect: '/instructors',
   },
+  { path: '/instructors', component: InstructorList },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../pages/About.vue')
+    path: '/instructors/:id',
+    component: InstructorDetail,
+    children: [{ path: 'contact', component: ContactInstructor }],
   },
-  {path: '/instructors', component: null},
-  {path: '/instructors/:id', component: null, children: [
-    {path: '/contact', component: null},
-  ]},
-  {path: '/register', component: null},
-  {path: '/requests', component: null},
-  {path: '/:notFound(.*)', component: null},
-]
+  { path: '/register', component: InstructorRegistraion },
+  { path: '/requests', component: RequestsRecieved },
+  { path: '/:notFound(.*)', component: NotFound },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-})
+});
 
 export default router;
