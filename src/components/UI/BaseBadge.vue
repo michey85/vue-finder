@@ -40,7 +40,7 @@ export default {
   color: var(--white);
 }
 
-.career {
+.fullstack {
   background-color: #8d006e;
   color: var(--white);
 }

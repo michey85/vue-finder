@@ -1,5 +1,5 @@
 <template>
-  <section>Filter</section>
+  <InstructorFilter @change-filter="setFilter" />
   <section>
     <base-card>
       <div class="controls">
@@ -26,17 +26,45 @@
 
 <script>
 import InstructorItem from '../../components/instructors/InstructorItem.vue';
+import InstructorFilter from '../../components/instructors/InstructorFilter.vue';
 
 export default {
   components: {
     InstructorItem,
+    InstructorFilter,
+  },
+  data() {
+    return {
+      activeFilter: {
+        frontend: true,
+        backend: true,
+        fullstack: true,
+      },
+    };
   },
   computed: {
     filteredInstructors() {
-      return this.$store.getters['instructors/instructors'];
+      console.log(this.activeFilter);
+      return this.$store.getters['instructors/instructors'].filter((inst) => {
+        if (this.activeFilter.frontend && inst.areas.includes('frontend'))
+          return true;
+        if (this.activeFilter.backend && inst.areas.includes('backend'))
+          return true;
+        if (this.activeFilter.fullstack && inst.areas.includes('fullstack'))
+          return true;
+
+        return false;
+      });
     },
     hasInstructors() {
       return this.$store.getters['instructors/hasInstructors'];
+    },
+  },
+  methods: {
+    setFilter(updatedFilter) {
+      console.log('list file', updatedFilter);
+
+      this.activeFilter = updatedFilter;
     },
   },
 };
