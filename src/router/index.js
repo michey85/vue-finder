@@ -16,6 +16,7 @@ const routes = [
   {
     path: '/instructors/:id',
     component: InstructorDetail,
+    props: true,
     children: [{ path: 'contact', component: ContactInstructor }],
   },
   { path: '/register', component: InstructorRegistraion },

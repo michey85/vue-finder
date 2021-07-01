@@ -18,7 +18,8 @@
 header {
   background-color: var(--color-primary-600);
   width: 100%;
-  height: 5rem;
+  min-height: 5rem;
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,6 +46,11 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 
   ul {
     list-style: none;
