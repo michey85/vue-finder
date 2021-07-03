@@ -1,65 +1,120 @@
 <template>
   <form @submit.prevent="submitForm">
-    <label class="form-control">
+    <label class="form-control" :class="{invalid: !firstName.isValid}">
       First Name
-      <input type="text" v-model.trim="firstName" />
+      <input type="text" v-model.trim="firstName.val" @blur="clearValidity('firstName')" />
+      <p v-if="!firstName.isValid">The field must not be empty.</p>
     </label>
 
-    <label class="form-control">
+    <label class="form-control" :class="{invalid: !lastName.isValid}">
       First Name
-      <input type="text" v-model.trim="lastName" />
+      <input type="text" v-model.trim="lastName.val" @blur="clearValidity('lastName')" />
+      <p v-if="!lastName.isValid">The field must not be empty.</p>
     </label>
 
-    <label class="form-control">
+    <label class="form-control" :class="{invalid: !description.isValid}">
       Description
-      <textarea rows="5" v-model.trim="description" />
+      <textarea rows="5" v-model.trim="description.val" @blur="clearValidity('description')"/>
+      <p v-if="!description.isValid">The field must not be empty.</p>
     </label>
 
-    <label class="form-control">
+    <label class="form-control" :class="{invalid: !rate.isValid}">
       Hourly rate
-      <input type="number" v-model.number="rate" />
+      <input type="number" v-model.number="rate.val" @blur="clearValidity('rate')" />
+      <p v-if="!rate.isValid">The field must not be empty or less than 0.</p>
     </label>
 
-    <div class="form-control">
+    <div class="form-control" :class="{invalid: !areas.isValid}">
       <h3>Areas of Expertise</h3>
       <label>
-        <input type="checkbox" value="frontend" v-model="areas" />
+        <input type="checkbox" value="frontend" v-model="areas.val" @blur="clearValidity('areas')" />
         Frontend developer
       </label>
       <label>
-        <input type="checkbox" value="backend" v-model="areas" />
+        <input type="checkbox" value="backend" v-model="areas.val" @blur="clearValidity('areas')" />
         Backend developer
       </label>
       <label>
-        <input type="checkbox" value="fullstack" v-model="areas" />
+        <input type="checkbox" value="fullstack" v-model="areas.val" @blur="clearValidity('areas')" />
         Fullstack developer
       </label>
+      <p v-if="!areas.isValid">Choose at least one expertise.</p>
     </div>
+    <p v-if="!isValidForm">Please fix all the above errors and try to submit again.</p>
     <base-button>Register</base-button>
   </form>
 </template>
 
 <script>
 export default {
+  emits: ['save-data'],
   data() {
     return {
-      firstName: '',
-      lastName: '',
-      description: '',
-      rate: null,
-      areas: [],
+      firstName: {
+        val: '',
+        isValid: true,
+      },
+      lastName: {
+        val: '',
+        isValid: true,
+      },
+      description: {
+        val: '',
+        isValid: true,
+      },
+      rate: {
+        val: null,
+        isValid: true,
+      },
+      areas: {
+        val: [],
+        isValid: true,
+      },
+      isValidForm: true,
     };
   },
   methods: {
+    clearValidity(input) {
+      this[input].isValid = true;
+    },
+    validateForm() {
+      this.isValidForm = true;
+
+      if (!this.firstName.val) {
+        this.firstName.isValid = false;
+        this.isValidForm = false;
+      }
+      if (!this.lastName.val) {
+        this.lastName.isValid = false;
+        this.isValidForm = false;
+      }
+      if (!this.description.val) {
+        this.description.isValid = false;
+        this.isValidForm = false;
+      }
+      if (!this.rate.val || this.rate.val < 0) {
+        this.rate.isValid = false;
+        this.isValidForm = false;
+      }
+      if (!this.areas.val.length) {
+        this.areas.isValid = false;
+        this.isValidForm = false;
+      }
+    },
     submitForm() {
+      this.validateForm();
+
+      if (!this.isValidForm) return;
+
       const formData = {
-        first: this.firstName,
-        last: this.lastName,
-        desc: this.description,
-        rate: this.rate,
-        areas: this.areas,
+        first: this.firstName.val,
+        last: this.lastName.val,
+        desc: this.description.val,
+        rate: this.rate.val,
+        areas: this.areas.val,
       };
-      console.log(formData);
+
+      this.$emit('save-data', formData)
     },
   },
 };
@@ -117,4 +172,9 @@ h3 {
     border: 1px solid var(--color-primary-600);
   }
 }
+
+p {
+  color: var(--color-primary-600);
+}
+
 </style>

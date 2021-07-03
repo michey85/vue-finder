@@ -2,7 +2,7 @@
   <section>
     <base-card>
       <h2>Register as an instructor!</h2>
-      <InstructorForm />
+      <InstructorForm @save-data="saveData"/>
     </base-card>
   </section>
 </template>
@@ -14,5 +14,11 @@ export default {
   components: {
     InstructorForm,
   },
+  methods: {
+    saveData(formData) {
+      this.$store.dispatch('instructors/registerInstructor', formData);
+      this.$router.replace('/instructors');
+    }
+  }
 };
 </script>

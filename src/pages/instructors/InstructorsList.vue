@@ -4,7 +4,7 @@
     <base-card>
       <div class="controls">
         <base-button mode="outline">Refresh</base-button>
-        <base-button link to="/register">Register ad an Instructor</base-button>
+        <base-button link to="/register" v-if="!isInstructor">Register ad an Instructor</base-button>
       </div>
 
       <h2>List of Coaches</h2>
@@ -59,6 +59,9 @@ export default {
     hasInstructors() {
       return this.$store.getters['instructors/hasInstructors'];
     },
+    isInstructor() {
+      return this.$store.getters['instructors/isInstructor'];
+    }
   },
   methods: {
     setFilter(updatedFilter) {
