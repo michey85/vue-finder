@@ -1,14 +1,20 @@
 <template>
+  <base-dialog :show="!!error" title="An error occured!" @close="handleError">
+    <p>{{error}}</p>
+  </base-dialog>
   <InstructorFilter @change-filter="setFilter" />
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
-        <base-button link to="/register" v-if="!isInstructor">Register ad an Instructor</base-button>
+        <base-button mode="outline" @click="loadInstructors">Refresh</base-button>
+        <base-button link to="/register" v-if="!isInstructor && !isLoading">Register ad an Instructor</base-button>
       </div>
 
       <h2>List of Coaches</h2>
-      <ul v-if="hasInstructors">
+      <div v-if="isLoading">
+        <base-spinner />
+      </div>
+      <ul v-else-if="hasInstructors">
         <InstructorItem
           v-for="instr of filteredInstructors"
           :key="instr.id"
@@ -35,6 +41,8 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
+      error: null,
       activeFilter: {
         frontend: true,
         backend: true,
@@ -57,7 +65,7 @@ export default {
       });
     },
     hasInstructors() {
-      return this.$store.getters['instructors/hasInstructors'];
+      return !this.isLoading && this.$store.getters['instructors/hasInstructors'];
     },
     isInstructor() {
       return this.$store.getters['instructors/isInstructor'];
@@ -69,6 +77,23 @@ export default {
 
       this.activeFilter = updatedFilter;
     },
+    async loadInstructors() {
+      this.isLoading = true;
+
+      try {
+        await this.$store.dispatch('instructors/loadInstructors');
+      } catch (error) {
+        this.error = error.message || 'Something went wrong...'
+      }
+
+      this.isLoading = false;
+    },
+    handleError() {
+      this.error = null;
+    }
+  },
+  created() {
+    this.loadInstructors();
   },
 };
 </script>
