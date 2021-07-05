@@ -27,16 +27,20 @@
     <div class="form-control" :class="{invalid: !areas.isValid}">
       <h3>Areas of Expertise</h3>
       <label>
-        <input type="checkbox" value="frontend" v-model="areas.val" @blur="clearValidity('areas')" />
-        Frontend developer
+        <input type="checkbox" value="hatha" v-model="areas.val" @blur="clearValidity('areas')" />
+        Hatha yoga
       </label>
       <label>
-        <input type="checkbox" value="backend" v-model="areas.val" @blur="clearValidity('areas')" />
-        Backend developer
+        <input type="checkbox" value="mantra" v-model="areas.val" @blur="clearValidity('areas')" />
+        Mantra yoga
       </label>
       <label>
-        <input type="checkbox" value="fullstack" v-model="areas.val" @blur="clearValidity('areas')" />
-        Fullstack developer
+        <input type="checkbox" value="kundalini" v-model="areas.val" @blur="clearValidity('areas')" />
+        Kundalini yoga
+      </label>
+      <label>
+        <input type="checkbox" value="meditation" v-model="areas.val" @blur="clearValidity('areas')" />
+        Meditation
       </label>
       <p v-if="!areas.isValid">Choose at least one expertise.</p>
     </div>

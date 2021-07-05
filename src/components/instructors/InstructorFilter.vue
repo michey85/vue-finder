@@ -2,16 +2,20 @@
   <base-card>
     <h2>Find your instructor</h2>
     <label>
-      <input type="checkbox" name="frontend" checked @change="setFilter" />
-      Frontend
+      <input type="checkbox" name="hatha" checked @change="setFilter" />
+      Hatha
     </label>
     <label>
-      <input type="checkbox" name="backend" checked @change="setFilter" />
-      Backend
+      <input type="checkbox" name="mantra" checked @change="setFilter" />
+      Mantra
     </label>
     <label>
-      <input type="checkbox" name="fullstack" checked @change="setFilter" />
-      Fullstack
+      <input type="checkbox" name="meditation" checked @change="setFilter" />
+      Meditation
+    </label>
+    <label>
+      <input type="checkbox" name="kundalini" checked @change="setFilter" />
+      Kundalini
     </label>
   </base-card>
 </template>
@@ -22,9 +26,10 @@ export default {
   data() {
     return {
       filters: {
-        frontend: true,
-        backend: true,
-        fullstack: true,
+        hatha: true,
+        mantra: true,
+        meditation: true,
+        kundalini: true,
       },
     };
   },
@@ -35,7 +40,6 @@ export default {
 
       this.filters[name] = isActive;
       this.$emit('change-filter', this.filters);
-      console.log('filter file', this.filters);
     },
   },
 };

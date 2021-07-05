@@ -31,11 +31,11 @@ export default {
 
     const response = await fetch(`${DB_URL}/instructors.json`);
 
-    const resData = await response.json();
-
+    
     if (!response.ok) {
       throw new Error(resData.message || 'Failed to fetch data!');
     }
+    const resData = await response.json();
 
     const instructors = [];
 

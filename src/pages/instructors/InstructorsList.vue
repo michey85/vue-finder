@@ -46,20 +46,23 @@ export default {
       isLoading: false,
       error: null,
       activeFilter: {
-        frontend: true,
-        backend: true,
-        fullstack: true,
+        hatha: true,
+        mantra: true,
+        meditation: true,
+        kundalini: true,
       },
     };
   },
   computed: {
     filteredInstructors() {
       return this.$store.getters['instructors/instructors'].filter((inst) => {
-        if (this.activeFilter.frontend && inst.areas.includes('frontend'))
+        if (this.activeFilter.hatha && inst.areas.includes('hatha'))
           return true;
-        if (this.activeFilter.backend && inst.areas.includes('backend'))
+        if (this.activeFilter.mantra && inst.areas.includes('mantra'))
           return true;
-        if (this.activeFilter.fullstack && inst.areas.includes('fullstack'))
+        if (this.activeFilter.meditation && inst.areas.includes('meditation'))
+          return true;
+        if (this.activeFilter.kundalini && inst.areas.includes('kundalini'))
           return true;
 
         return false;

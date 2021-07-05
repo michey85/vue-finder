@@ -30,17 +30,22 @@ export default {
   text-transform: uppercase;
 }
 
-.frontend {
-  background-color: #3d008d;
+.hatha {
+  background-color: #954cf3;
   color: var(--white);
 }
 
-.backend {
-  background-color: #71008d;
+.mantra {
+  background-color: #31793a;
   color: var(--white);
 }
 
-.fullstack {
+.kundalini {
+  background-color: #ddb941;
+  color: var(--white);
+}
+
+.meditation {
   background-color: #8d006e;
   color: var(--white);
 }
