@@ -26,7 +26,9 @@ export default {
 
   },
 
-  async loadInstructors(context) {
+  async loadInstructors(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) return;
+
     const response = await fetch(`${DB_URL}/instructors.json`);
 
     const resData = await response.json();
@@ -35,8 +37,6 @@ export default {
       throw new Error(resData.message || 'Failed to fetch data!');
     }
 
-    console.log(resData);
-    
     const instructors = [];
 
     for (const key in resData) {
@@ -53,5 +53,6 @@ export default {
     }
 
     context.commit('setInstructors', instructors);
+    context.commit('setFetchTimestamp');
   }
 };

@@ -1,21 +1,23 @@
 <template>
   <teleport to="body">
     <div v-if="show" @click="tryClose" class="backdrop"></div>
-    <dialog open v-if="show">
-      <header>
-        <slot name="header">
-          <h2>{{ title }}</h2>
-        </slot>
-      </header>
-      <section>
-        <slot></slot>
-      </section>
-      <menu v-if="!fixed">
-        <slot name="actions">
-          <base-button @click="tryClose">Close</base-button>
-        </slot>
-      </menu>
-    </dialog>
+    <transition name="dialog">
+      <dialog open v-if="show">
+        <header>
+          <slot name="header">
+            <h2>{{ title }}</h2>
+          </slot>
+        </header>
+        <section>
+          <slot></slot>
+        </section>
+        <menu v-if="!fixed">
+          <slot name="actions">
+            <base-button @click="tryClose">Close</base-button>
+          </slot>
+        </menu>
+      </dialog>
+    </transition>
   </teleport>
 </template>
 
@@ -48,7 +50,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .backdrop {
   position: fixed;
   top: 0;
@@ -65,24 +67,28 @@ dialog {
   left: 10%;
   width: 80%;
   z-index: 100;
-  border-radius: 12px;
+  border-radius: var(--radii-base);
   border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: var(--shadow-base);
   padding: 0;
   margin: 0;
   overflow: hidden;
-  background-color: white;
+  background-color: var(--white);
+
+  @media (min-width: 768px) {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
 }
 
 header {
-  background-color: #3a0061;
-  color: white;
+  background-color: var(--color-secondary-600);
+  color: var(--white);
   width: 100%;
   padding: 1rem;
-}
-
-header h2 {
-  margin: 0;
+    h2 {
+      margin: 0;
+   }
 }
 
 section {
@@ -96,10 +102,20 @@ menu {
   margin: 0;
 }
 
-@media (min-width: 768px) {
-  dialog {
-    left: calc(50% - 20rem);
-    width: 40rem;
-  }
+.dialog-enter-from, .dialog-leave-to {
+  opacity: 0;
+  transform: scale(0.8) translateY(100px);
+}
+
+.dialog-enter-active {
+  transition: all 0.3s ease-out;
+}
+.dialog-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.dialog-enter-to, .dialog-leave-from {
+  opacity: 1;
+  transform: scale(1) translateY(0);
 }
 </style>

@@ -1,4 +1,5 @@
 <template>
+<div>
   <base-dialog :show="!!error" title="An error occured!" @close="handleError">
     <p>{{error}}</p>
   </base-dialog>
@@ -6,7 +7,7 @@
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline" @click="loadInstructors">Refresh</base-button>
+        <base-button mode="outline" @click="loadInstructors(true)">Refresh</base-button>
         <base-button link to="/register" v-if="!isInstructor && !isLoading">Register ad an Instructor</base-button>
       </div>
 
@@ -28,6 +29,7 @@
       <h3 v-else>No instructors found.</h3>
     </base-card>
   </section>
+</div>
 </template>
 
 <script>
@@ -52,7 +54,6 @@ export default {
   },
   computed: {
     filteredInstructors() {
-      console.log(this.activeFilter);
       return this.$store.getters['instructors/instructors'].filter((inst) => {
         if (this.activeFilter.frontend && inst.areas.includes('frontend'))
           return true;
@@ -73,15 +74,13 @@ export default {
   },
   methods: {
     setFilter(updatedFilter) {
-      console.log('list file', updatedFilter);
-
       this.activeFilter = updatedFilter;
     },
-    async loadInstructors() {
+    async loadInstructors(refresh = false) {
       this.isLoading = true;
 
       try {
-        await this.$store.dispatch('instructors/loadInstructors');
+        await this.$store.dispatch('instructors/loadInstructors', {forceRefresh: refresh});
       } catch (error) {
         this.error = error.message || 'Something went wrong...'
       }

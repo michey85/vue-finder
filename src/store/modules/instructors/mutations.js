@@ -4,5 +4,8 @@ export default {
     },
     setInstructors(state, payload) {
         state.instructors = payload;
+    },
+    setFetchTimestamp(state) {
+        state.lastFetch = new Date().getTime();
     }
 };

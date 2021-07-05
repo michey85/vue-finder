@@ -10,5 +10,15 @@ export default {
     const userId = rootGetters.userId;
     
     return instructors.some(inst => inst.id === userId);
+  },
+  shouldUpdate(state) {
+    const lastFetch = state.lastFetch;
+
+    if (!lastFetch) return true;
+    
+    const currentTimestamp = new Date().getTime();
+
+    // 1 minute cache
+    return (currentTimestamp - lastFetch) / 1000 > 60;
   }
 };

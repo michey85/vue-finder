@@ -1,7 +1,11 @@
 <template>
   <TheHeader />
 
-  <router-view />
+  <router-view v-slot="slotProps">
+    <transition name="route" mode="out-in">
+      <component :is="slotProps.Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script>
@@ -57,7 +61,6 @@ body {
 }
 
 a {
-  // font-weight: bold;
   color: var(--color-secondary-300);
   text-decoration: none;
 
@@ -68,6 +71,29 @@ a {
   &.router-link-exact-active {
     color: var(--color-secondary-600);
     font-weight: bold;
+  }
+}
+
+.route {
+  &-enter-from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  &-leave-to {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  &-enter-active {
+    transition: all 0.3s ease-out;
+  }
+  &-leave-active {
+    transition: all 0.3s ease-in;
+  }
+
+  &-enter-to, &-leave-from {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
