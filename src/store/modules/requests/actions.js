@@ -26,7 +26,9 @@ export default {
     async loadRequests(context) {
         const instructorId = context.rootGetters.userId;
 
-        const response = await fetch(`${DB_URL}/requests/${instructorId}.json`);
+        const token = context.rootGetters.token;
+
+        const response = await fetch(`${DB_URL}/requests/${instructorId}.json?auth=${token}`);
         
         if (!response.ok) {
             throw new Error(response.message || 'Failed to fetch data.');

@@ -12,13 +12,18 @@ export default {
       areas: formData.areas,
     };
 
-    const response = await fetch(`${DB_URL}/instructors/${userID}.json`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(instructorData)
-    });
+    const token = context.rootGetters.token;
+
+    const response = await fetch(
+      `${DB_URL}/instructors/${userID}.json?auth=${token}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(instructorData),
+      }
+    );
 
     if (response.ok) {
       context.commit('registerInstructor', {...instructorData, id: userID});

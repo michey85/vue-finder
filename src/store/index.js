@@ -2,22 +2,12 @@ import { createStore } from 'vuex';
 
 import instructorsModule from './modules/instructors';
 import requestsModule from './modules/requests';
+import authModule from './modules/auth';
 
 export default createStore({
   modules: {
     instructors: instructorsModule,
     requests: requestsModule,
-  },
-  state() {
-    return {
-      userId: 'y108',
-    };
-  },
-  mutations: {},
-  actions: {},
-  getters: {
-    userId(state) {
-      return state.userId;
-    },
+    auth: authModule,
   },
 });

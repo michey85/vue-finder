@@ -5,6 +5,7 @@ import InstructorDetail from '../pages/instructors/InstructorDetail.vue';
 import InstructorRegistraion from '../pages/instructors/InstructorRegistration.vue';
 import ContactInstructor from '../pages/requests/ContactInstructor.vue';
 import RequestsRecieved from '../pages/requests/RequestsRecieved.vue';
+import UserAuth from '../pages/auth/UserAuth.vue';
 import NotFound from '../pages/NotFound.vue';
 
 const routes = [
@@ -21,6 +22,7 @@ const routes = [
   },
   { path: '/register', component: InstructorRegistraion },
   { path: '/requests', component: RequestsRecieved },
+  { path: '/auth', component: UserAuth },
   { path: '/:notFound(.*)', component: NotFound },
 ];
 
