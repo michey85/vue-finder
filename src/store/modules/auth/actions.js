@@ -70,7 +70,7 @@ export default {
       throw new Error('Failed to login!');
     }
 
-    const expiredIn = +resData.expiredIn * 1000;
+    const expiredIn = +resData.expiresIn * 1000;
     const expirationDate = new Date().getTime() + expiredIn;
 
     timer = setTimeout(function() {
