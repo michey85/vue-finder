@@ -44,7 +44,7 @@ export default {
             return this.mode === 'login' ? 'SignUp instead' : 'LogIn instead';
         },
     },
-    method: {
+    methods: {
         async submitForm() {
             this.formIsValid = true;
 
@@ -60,6 +60,8 @@ export default {
                     email: this.email,
                     password: this.password,
                 });
+                const redirectUrl = '/' + (this.$router.query?.redirect || 'instructors');
+                this.$router.replace(redirectUrl);
             } catch (error) {
                 this.error = error.message || 'Try it later!';
             }

@@ -8,7 +8,11 @@
     <base-card>
       <div class="controls">
         <base-button mode="outline" @click="loadInstructors(true)">Refresh</base-button>
-        <base-button link to="/register" v-if="!isInstructor && !isLoading">Register ad an Instructor</base-button>
+        <base-button link to="/auth?redirect=register" v-if="!isLoggedIn">Login to register an Instructor</base-button>
+        <base-button
+          link to="/register"
+          v-if="isLoggedIn && !isInstructor && !isLoading"
+        >Register an Instructor</base-button>
       </div>
 
       <h2>List of Coaches</h2>
@@ -54,6 +58,9 @@ export default {
     };
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuth;
+    },
     filteredInstructors() {
       return this.$store.getters['instructors/instructors'].filter((inst) => {
         if (this.activeFilter.hatha && inst.areas.includes('hatha'))
